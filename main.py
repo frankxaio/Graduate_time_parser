@@ -3,7 +3,7 @@ from controller import verbose
 
 if __name__=="__main__":
     # handle user input
-    school = input('欲查詢學校[1.交大 2.中央 3.清大 4.陽明]，輸入數字：')
+    school = input('欲查詢學校[1.交大 2.中央 3.清大]，輸入數字：')
     name = input('教授名稱：')
     sample_count = int(input('參考最近碩士畢業生的數量：'))
     filter_cnt = input('欲過濾的系所數量（選填）：')
