@@ -137,7 +137,6 @@ class LabCensusSystem:
                 # 取得口試日期
                 calculate = int(grad_year) - int(enter_year)
                 if calculate <= 1:
-                    print(f"{student_name} 歸類到2年")
                     self.result[0] += 1  # 改為歸類到2年
                     new = {student_name:[int(enter_year),"1"]}
                 elif calculate <= 2:
