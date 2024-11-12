@@ -73,33 +73,35 @@ class VerboseBooster:
                     oral_defense = access.body.form.div.table.tbody.tr.td.table.find("th", text="口試日期:").find_next_sibling().get_text()
                     # 取得論文題目
                     thesis_title = access.body.form.div.table.tbody.tr.td.table.find("th", text="論文名稱:").find_next_sibling().get_text()
+                    # 取得論文網址
+                    thesis_url = browser.get_url()
+                    # 取得畢業學年度
+                    grad_year = access.body.form.div.table.tbody.tr.td.table.find("th", text="畢業學年度:").find_next_sibling().get_text()
     
                     # 計算實際就學年數
                     enter_year = int(self.students[student_name][0]) + 1911
                     study_years = self.calculate_study_years(enter_year, oral_defense)
                     
-                    self.students[student_name].append(oral_defense)
-                    self.students[student_name].append(thesis_title)
-                    self.students[student_name].append(study_years)
+                    self.students[student_name].extend([oral_defense, thesis_title, study_years, thesis_url, grad_year])
                     self.students[student_name][0] = f"{str(enter_year)} 年"
 
                     # 根據實際就學年數重新分類
                     if study_years is not None:
                         if study_years <= 2.5:
                             self.L1.append([self.students[student_name][0], self.students[student_name][2], 
-                                          self.students[student_name][3], self.students[student_name][4]])
+                                          self.students[student_name][3], self.students[student_name][4], 
+                                          self.students[student_name][5], self.students[student_name][6]])
                         elif study_years <= 3.0:
                             self.L2.append([self.students[student_name][0], self.students[student_name][2], 
-                                          self.students[student_name][3], self.students[student_name][4]])
+                                          self.students[student_name][3], self.students[student_name][4],
+                                          self.students[student_name][5], self.students[student_name][6]])
                         else:  # 3.0年以上
                             self.L3.append([self.students[student_name][0], self.students[student_name][2], 
-                                          self.students[student_name][3], self.students[student_name][4]])
+                                          self.students[student_name][3], self.students[student_name][4],
+                                          self.students[student_name][5], self.students[student_name][6]])
 
-                # 若口試日期取得失敗，繼續迴圈
                 except AttributeError:
                     continue
-
-
 
         # 輸出結果
         print("\n" + "="*60)
@@ -108,9 +110,11 @@ class VerboseBooster:
         if(self.L1 != []):
             for time in self.L1:
                 print(f"📅 入學時間：{time[0]}")
+                print(f"🎓 畢業學年度：{time[5]}")
                 print(f"🎯 口試時間：{time[1]}")
                 print(f"📚 論文題目：{time[2]}")
                 print(f"⏱️ 實際就學年數：{time[3]} 年")
+                print(f"🔗 論文網址：{time[4]}")
                 print("-"*60)
         else:
             print("❌ 無資料")
@@ -122,9 +126,11 @@ class VerboseBooster:
         if(self.L2 != []):
             for time in self.L2:
                 print(f"📅 入學時間：{time[0]}")
+                print(f"🎓 畢業學年度：{time[5]}")
                 print(f"🎯 口試時間：{time[1]}")
                 print(f"📚 論文題目：{time[2]}")
                 print(f"⏱️ 實際就學年數：{time[3]} 年")
+                print(f"🔗 論文網址：{time[4]}")
                 print("-"*60)
         else:
             print("❌ 無資料")
@@ -136,9 +142,11 @@ class VerboseBooster:
         if(self.L3 != []):
             for time in self.L3:
                 print(f"📅 入學時間：{time[0]}")
+                print(f"🎓 畢業學年度：{time[5]}")
                 print(f"🎯 口試時間：{time[1]}")
                 print(f"📚 論文題目：{time[2]}")
                 print(f"⏱️ 實際就學年數：{time[3]} 年")
+                print(f"🔗 論文網址：{time[4]}")
                 print("-"*60)
         else:
             print("❌ 無資料")
